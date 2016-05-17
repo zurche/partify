@@ -16,6 +16,14 @@ import com.spotify.sdk.android.player.PlayerState;
 import com.spotify.sdk.android.player.Spotify;
 
 import az.partify.util.SpotifyScope;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity implements
         PlayerNotificationCallback, ConnectionStateCallback {
@@ -25,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final int REQUEST_CODE = 1;
 
     private Player mPlayer;
+    private String mCurrentAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements
         builder.setScopes(new String[]{
                 SpotifyScope.USER_READ_PRIVATE_SCOPE,
                 SpotifyScope.STREAMING_SCOPE,
-                SpotifyScope.PLAYLIST_READ_COLLABORATIVE_SCOPE});
+                SpotifyScope.PLAYLIST_READ_COLLABORATIVE_SCOPE,
+                SpotifyScope.PLAYLIST_READ_PRIVATE_SCOPE});
 
         AuthenticationRequest request = builder.build();
 
@@ -53,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
+                mCurrentAccessToken = response.getAccessToken();
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
                     @Override
@@ -68,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements
                         Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
+
+                getPlaylists();
             }
         }
 
@@ -122,5 +135,29 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         Spotify.destroyPlayer(this);
         super.onDestroy();
+    }
+
+    private void getPlaylists() {
+
+        SpotifyApi api = new SpotifyApi();
+
+        // Most (but not all) of the Spotify Web API endpoints require authorisation.
+        // If you know you'll only use the ones that don't require authorisation you can skip this step
+        api.setAccessToken(mCurrentAccessToken);
+
+        SpotifyService spotify = api.getService();
+
+        spotify.getMyPlaylists(new Callback<Pager<PlaylistSimple>>() {
+            @Override
+            public void success(Pager<PlaylistSimple> playlistSimplePager, Response response) {
+                System.out.print("");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                System.out.print("");
+            }
+        });
+
     }
 }
