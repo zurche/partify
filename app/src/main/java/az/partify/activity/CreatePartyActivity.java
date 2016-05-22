@@ -28,11 +28,9 @@ public class CreatePartyActivity extends AppCompatActivity implements
 
     private CreatePartyController mCreatePartyController;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
     private ProgressBar mLocationProgressBar;
     private TextView mLocationLabel;
     private Button mCreatePartyButton;
-    private String mPartyName;
     private EditText mPartyNameEditText;
 
     @Override
@@ -81,7 +79,7 @@ public class CreatePartyActivity extends AppCompatActivity implements
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {return;}
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
 
         if (mLastLocation != null) {
