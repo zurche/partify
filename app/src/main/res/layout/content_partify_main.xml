@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,35 +8,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activity.LoginActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="az.partify.activity.PartifyMainActivity"
+    tools:showIn="@layout/activity_partify_main">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="40dp"
         android:orientation="vertical">
 
-        <TextView
+        <Button
+            android:id="@+id/create_party_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Partify"
-            android:textSize="35sp" />
+            android:layout_weight="2"
+            android:text="Create" />
 
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/search_party_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:text="Login"
-            android:visibility="gone"/>
-
-        <ProgressBar
-            android:id="@+id/loading_login"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:visibility="visible"/>
+            android:layout_weight="2"
+            android:text="Search" />
     </LinearLayout>
+
 </RelativeLayout>

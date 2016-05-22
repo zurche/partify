@@ -4,4 +4,5 @@
     <!-- Spotify Credentials -->
     <string name="client_id">331d62158fe642528cf0b22a5a90aa12</string>
     <string name="client_secret">6d4b8050db114bbe87c2ce1a83565cfd</string>
+    <string name="title_activity_partify_main">PartifyMainActivity</string>
 </resources>
