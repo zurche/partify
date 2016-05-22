@@ -25,7 +25,9 @@
         <activity
             android:name=".activity.PartifyMainActivity"
             android:label="@string/title_activity_partify_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.SearchPartyActivity" />
+        <activity android:name=".activity.CreatePartyActivity"></activity>
     </application>
 
 </manifest>
