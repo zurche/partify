@@ -1,10 +1,29 @@
 package az.partify.controllers;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import java.util.HashMap;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import az.partify.model.Party;
 import az.partify.screen_actions.CreatePartyScreenActions;
 import az.partify.util.SharedPreferenceHelper;
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -23,6 +42,9 @@ public class CreatePartyController {
     private final CreatePartyScreenActions mCreatePartyScreenActions;
     private final SharedPreferenceHelper mSharedPreferenceHelper;
     private final SpotifyService mSpotifyService;
+    private String mStreetAddress;
+    private double mLatitude;
+    private double mLongitude;
 
     public CreatePartyController(CreatePartyScreenActions createPartyScreenActions) {
         mCreatePartyScreenActions = createPartyScreenActions;
@@ -69,5 +91,85 @@ public class CreatePartyController {
                 Log.d("PLAYLIST", "Playlist Creation Failed.");
             }
         });
+    }
+
+    public void getCurrentLocation() {
+
+    }
+
+    public void getCurrentLocation(double latitude, double longitude, Context context) {
+        mLatitude = latitude;
+        mLongitude = longitude;
+
+        List<Address> addresses = null;
+
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (addresses.size() == 1) {
+            mStreetAddress = addresses.get(0).getAddressLine(0);
+        }
+
+        mCreatePartyScreenActions.updateLocationUI(mStreetAddress);
+    }
+
+    public void onRefreshCurrentLocation(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new MyLocationListener();
+        if (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+    }
+
+    public void saveParty(String partyName) {
+        if (partyName.trim().length() == 0) {
+            mCreatePartyScreenActions.showError("Party Name Invalid");
+        } else {
+            Party tmpParty = new Party(mLatitude, mLongitude, partyName);
+            saveNewParty(tmpParty);
+        }
+    }
+
+    private void saveNewParty(Party tmpParty) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("parties");
+
+        myRef.child(tmpParty.name).setValue(tmpParty, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                mCreatePartyScreenActions.showPartyCreatedScreen();
+            }
+        });
+    }
+
+    private class MyLocationListener implements LocationListener {
+        @Override
+        public void onLocationChanged(Location loc) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
     }
 }

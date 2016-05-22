@@ -49,6 +49,7 @@ public class LoginActivityController {
                 SpotifyScope.PLAYLIST_READ_COLLABORATIVE,
                 SpotifyScope.PLAYLIST_MODIFY_PRIVATE,
                 SpotifyScope.PLAYLIST_MODIFY_PUBLIC,
+                SpotifyScope.USER_FOLLOW_MODIFY,
                 SpotifyScope.PLAYLIST_READ_PRIVATE});
 
         AuthenticationRequest request = builder.build();

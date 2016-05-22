@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "130275124029",
+    "firebase_url": "https://az-partify-app.firebaseio.com",
+    "project_id": "az-partify-app",
+    "storage_bucket": "az-partify-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130275124029:android:88cda14928f20af2",
+        "android_client_info": {
+          "package_name": "az.partify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130275124029-7tt5qivhaehuup7h6hhn672spfvs6f2l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "az.partify",
+            "certificate_hash": "D1F04282EF4E46D01AFA2015FD6D1D057A386725"
+          }
+        },
+        {
+          "client_id": "130275124029-edt4050shf0jj2vhoqc6ompo6ou5gevt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxtRLTXEycQQjiopf8Ppcnh_3okz3PAvI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130275124029-edt4050shf0jj2vhoqc6ompo6ou5gevt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

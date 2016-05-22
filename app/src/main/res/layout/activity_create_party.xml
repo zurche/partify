@@ -10,27 +10,48 @@
     tools:context=".activity.CreatePartyActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <EditText
+            android:id="@+id/party_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:hint="Party Name"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"
+            android:textSize="16dp"
+            android:hint="Party Name" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:hint="Party KEY"
-            android:layout_weight="1"/>
-
-        <Button
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Create"/>
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Location..."
+                android:textSize="16dp"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/location_progress"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/create_party"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Create" />
 
     </LinearLayout>
 
