@@ -51,4 +51,5 @@ public class SharedPreferenceHelper {
     public String getCurrentPlaylistId() {
         return mSharedPreferences.getString(CURRENT_PLAYLIST_ID_KEY, "");
     }
+
 }

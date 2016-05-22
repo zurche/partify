@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         mLoginActivityController = new LoginActivityController(this);
+
+        mLoginActivityController.onRefreshCurrentLocation();
 
         mLoginButton = (Button) findViewById(R.id.login_button);
         mLoadingLoginProgressBar = (ProgressBar) findViewById(R.id.loading_login);

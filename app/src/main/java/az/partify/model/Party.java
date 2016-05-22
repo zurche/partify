@@ -8,15 +8,15 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Party {
 
-    public Double latitude;
-    public Double longitude;
+    public float latitude;
+    public float longitude;
     public String name;
 
     public Party() {
 
     }
 
-    public Party(double latitude, double longitude, String name) {
+    public Party(float latitude, float longitude, String name) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;

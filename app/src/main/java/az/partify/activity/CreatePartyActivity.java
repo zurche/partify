@@ -48,8 +48,6 @@ public class CreatePartyActivity extends AppCompatActivity implements
                     .build();
         }
 
-        mCreatePartyController.onRefreshCurrentLocation(this);
-
         mPartyNameEditText = (EditText) findViewById(R.id.party_name_edit_text);
         mLocationProgressBar = (ProgressBar) findViewById(R.id.location_progress);
         mLocationLabel = (TextView) findViewById(R.id.location_label);
@@ -84,7 +82,7 @@ public class CreatePartyActivity extends AppCompatActivity implements
 
         if (mLastLocation != null) {
             mCreatePartyController.getCurrentLocation(
-                    mLastLocation.getLatitude(), mLastLocation.getLongitude(), this);
+                    (float) mLastLocation.getLatitude(), (float) mLastLocation.getLongitude(), this);
         }
     }
 

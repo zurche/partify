@@ -43,8 +43,8 @@ public class CreatePartyController {
     private final SharedPreferenceHelper mSharedPreferenceHelper;
     private final SpotifyService mSpotifyService;
     private String mStreetAddress;
-    private double mLatitude;
-    private double mLongitude;
+    private float mLatitude;
+    private float mLongitude;
 
     public CreatePartyController(CreatePartyScreenActions createPartyScreenActions) {
         mCreatePartyScreenActions = createPartyScreenActions;
@@ -93,11 +93,7 @@ public class CreatePartyController {
         });
     }
 
-    public void getCurrentLocation() {
-
-    }
-
-    public void getCurrentLocation(double latitude, double longitude, Context context) {
+    public void getCurrentLocation(float latitude, float longitude, Context context) {
         mLatitude = latitude;
         mLongitude = longitude;
 
@@ -119,7 +115,6 @@ public class CreatePartyController {
 
     public void onRefreshCurrentLocation(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new MyLocationListener();
         if (ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -127,7 +122,27 @@ public class CreatePartyController {
             return;
         }
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                LocationManager.GPS_PROVIDER, 5000, 10, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                });
     }
 
     public void saveParty(String partyName) {
@@ -149,27 +164,5 @@ public class CreatePartyController {
                 mCreatePartyScreenActions.showPartyCreatedScreen();
             }
         });
-    }
-
-    private class MyLocationListener implements LocationListener {
-        @Override
-        public void onLocationChanged(Location loc) {
-
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
     }
 }
