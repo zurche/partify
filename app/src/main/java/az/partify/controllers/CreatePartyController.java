@@ -19,11 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import az.partify.model.Party;
+import az.partify.model.Song;
 import az.partify.screen_actions.CreatePartyScreenActions;
 import az.partify.util.SharedPreferenceHelper;
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -149,7 +151,9 @@ public class CreatePartyController {
         if (partyName.trim().length() == 0) {
             mCreatePartyScreenActions.showError("Party Name Invalid");
         } else {
-            Party tmpParty = new Party(mLatitude, mLongitude, partyName);
+            ArrayList<Song> songList = new ArrayList<>();
+            //TODO: GET SONGS FROM PARTY HERE
+            Party tmpParty = new Party(mLatitude, mLongitude, partyName, songList);
             saveNewParty(tmpParty);
         }
     }
