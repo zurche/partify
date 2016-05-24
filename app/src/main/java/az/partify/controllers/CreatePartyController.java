@@ -113,44 +113,13 @@ public class CreatePartyController {
         mCreatePartyScreenActions.updateLocationUI(mStreetAddress);
     }
 
-    public void onRefreshCurrentLocation(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-
-                    }
-                });
-    }
-
     public void saveParty(String partyName) {
         if (partyName.trim().length() == 0) {
             mCreatePartyScreenActions.showError("Party Name Invalid");
         } else {
             ArrayList<Song> songList = new ArrayList<>();
             //TODO: GET SONGS FROM PARTY HERE
+            songList.add(new Song("ida", "Limp Bizkit", "Nookie"));
             Party tmpParty = new Party(mLatitude, mLongitude, partyName, songList);
             saveNewParty(tmpParty);
         }
