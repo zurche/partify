@@ -27,10 +27,10 @@
         <activity
             android:name=".activity.PartifyMainActivity"
             android:label="@string/title_activity_partify_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/SplashTheme"/>
         <activity android:name=".activity.SearchPartyActivity" />
         <activity android:name=".activity.CreatePartyActivity" />
-        <activity android:name=".activity.PartyDetailsActivity"></activity>
+        <activity android:name=".activity.PartyDetailsActivity"/>
     </application>
 
 </manifest>
