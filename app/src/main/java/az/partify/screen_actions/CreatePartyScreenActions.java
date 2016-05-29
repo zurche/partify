@@ -9,4 +9,6 @@ public interface CreatePartyScreenActions {
     void showError(String error);
 
     void showPartyCreatedScreen();
+
+    void showSearchSongScreen();
 }

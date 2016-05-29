@@ -1,15 +1,8 @@
 package az.partify.controllers;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseError;
@@ -22,13 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import az.partify.model.PartifyTrack;
 import az.partify.model.Party;
-import az.partify.model.Song;
 import az.partify.screen_actions.CreatePartyScreenActions;
 import az.partify.util.SharedPreferenceHelper;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -113,15 +107,12 @@ public class CreatePartyController {
         mCreatePartyScreenActions.updateLocationUI(mStreetAddress);
     }
 
-    public void saveParty(String partyName) {
+    public void onSaveParty(String partyName, ArrayList<PartifyTrack> trackList) {
         if (partyName.trim().length() == 0) {
             mCreatePartyScreenActions.showError("Party Name Invalid");
         } else {
-            ArrayList<Song> songList = new ArrayList<>();
-            //TODO: GET SONGS FROM PARTY HERE
-            songList.add(new Song("ida", "Limp Bizkit", "Nookie"));
-            Party tmpParty = new Party(mLatitude, mLongitude, partyName, songList);
-            saveNewParty(tmpParty);
+            Party newParty = new Party(mLatitude, mLongitude, partyName, trackList);
+            saveNewParty(newParty);
         }
     }
 
@@ -135,5 +126,9 @@ public class CreatePartyController {
                 mCreatePartyScreenActions.showPartyCreatedScreen();
             }
         });
+    }
+
+    public void onAddSongButtonPressed() {
+        mCreatePartyScreenActions.showSearchSongScreen();
     }
 }

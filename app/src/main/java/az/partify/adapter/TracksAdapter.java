@@ -8,32 +8,33 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import az.partify.R;
-import az.partify.model.Song;
+import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.TrackSimple;
 
 /**
  * Created by az on 22/05/16.
  */
-public class SongsAdapter extends BaseAdapter {
+public class TracksAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private ArrayList<Song> mSongList;
+    private List<Track> mTracks;
 
-    public SongsAdapter(Context context, ArrayList<Song> partyList) {
+    public TracksAdapter(List<Track> tracks, Context context) {
         mContext = context;
-        mSongList = partyList;
+        mTracks = tracks;
     }
 
     @Override
     public int getCount() {
-        return mSongList.size();
+        return mTracks.size();
     }
 
     @Override
-    public Song getItem(int position) {
-        return mSongList.get(position);
+    public Track getItem(int position) {
+        return mTracks.get(position);
     }
 
     @Override
@@ -60,11 +61,11 @@ public class SongsAdapter extends BaseAdapter {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
 
-        Song tmpSong = mSongList.get(position);
+        Track track = mTracks.get(position);
 
-        if(tmpSong != null) {
-            viewHolder.songNameTV.setText(tmpSong.songName);
-            viewHolder.songArtistTV.setText("(" + tmpSong.songArtist + ")");
+        if(track != null) {
+            viewHolder.songNameTV.setText(track.name);
+            viewHolder.songArtistTV.setText("(" + track.artists.get(0).name + ")");
         }
 
         return convertView;

@@ -1,21 +1,22 @@
 package az.partify.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import az.partify.R;
-import az.partify.adapter.SongsAdapter;
-import az.partify.model.Song;
+import az.partify.adapter.PartifyTracksAdapter;
+import az.partify.model.PartifyTrack;
 
 public class PartyDetailsActivity extends AppCompatActivity {
 
-    public static final String SONG_LIST = "song_list";
+    public static final String TRACK_LIST = "track_list";
     public static final String PARTY_NAME = "party_name";
 
-    private ArrayList<Song> mPartySongList;
+    private List<PartifyTrack> mPartyTrackList;
     private String mPartyName;
     private ListView mPartySongListView;
 
@@ -26,17 +27,15 @@ public class PartyDetailsActivity extends AppCompatActivity {
 
         Bundle intentExtras = getIntent().getExtras();
 
-        mPartySongList = (ArrayList<Song>) intentExtras.get(SONG_LIST);
+        mPartyTrackList = (ArrayList<PartifyTrack>) intentExtras.get(TRACK_LIST);
         mPartyName = (String) intentExtras.get(PARTY_NAME);
 
-        if (getSupportActionBar() != null && mPartySongList != null) {
+        if (getSupportActionBar() != null && mPartyTrackList != null) {
             getSupportActionBar().setTitle(mPartyName);
         }
 
         mPartySongListView = (ListView) findViewById(R.id.party_song_list);
-
-        SongsAdapter mSongsAdapter = new SongsAdapter(this, mPartySongList);
-
-        mPartySongListView.setAdapter(mSongsAdapter);
+        PartifyTracksAdapter partifyTracksAdapter = new PartifyTracksAdapter(mPartyTrackList, this);
+        mPartySongListView.setAdapter(partifyTracksAdapter);
     }
 }

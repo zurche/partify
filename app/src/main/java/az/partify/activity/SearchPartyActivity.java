@@ -17,7 +17,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import az.partify.R;
@@ -63,7 +62,7 @@ public class SearchPartyActivity extends AppCompatActivity implements
                 Intent startPartyDetailsScreen = new Intent(SearchPartyActivity.this,
                         PartyDetailsActivity.class);
 
-                startPartyDetailsScreen.putExtra(PartyDetailsActivity.SONG_LIST, selectedParty.songList);
+                startPartyDetailsScreen.putExtra(PartyDetailsActivity.TRACK_LIST, selectedParty.songList);
                 startPartyDetailsScreen.putExtra(PartyDetailsActivity.PARTY_NAME, selectedParty.name);
 
                 startActivity(startPartyDetailsScreen);

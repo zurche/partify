@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center">
@@ -14,7 +14,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:textSize="30sp"
+        android:maxLines="1"
         tools:text="Song" />
 
     <com.lb.auto_fit_textview.AutoResizeTextView
@@ -24,7 +25,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="15sp"
+        android:textSize="20sp"
+        android:maxLines="1"
         tools:text="Artist"/>
 
 </LinearLayout>

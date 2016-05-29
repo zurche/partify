@@ -27,10 +27,14 @@
         <activity
             android:name=".activity.PartifyMainActivity"
             android:label="@string/title_activity_partify_main"
-            android:theme="@style/SplashTheme"/>
+            android:theme="@style/SplashTheme" />
         <activity android:name=".activity.SearchPartyActivity" />
-        <activity android:name=".activity.CreatePartyActivity" />
-        <activity android:name=".activity.PartyDetailsActivity"/>
+        <activity android:name=".activity.CreatePartyActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.PartyDetailsActivity" />
+        <activity android:name=".activity.SearchTrackActivity"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="adjustPan|stateVisible"/>
     </application>
 
 </manifest>

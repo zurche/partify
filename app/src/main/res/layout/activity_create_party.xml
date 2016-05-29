@@ -18,14 +18,16 @@
             android:id="@+id/party_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:textSize="16dp"
-            android:hint="Party Name" />
+            android:layout_weight="0.3"
+            android:textSize="16sp"
+            android:hint="Party Name" >
+            <requestFocus/>
+        </EditText>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.3"
             android:gravity="center_vertical">
 
             <TextView
@@ -34,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Location..."
-                android:textSize="16dp"/>
+                android:textSize="16sp"/>
 
             <ProgressBar
                 style="?android:attr/progressBarStyleSmall"
@@ -46,11 +48,24 @@
 
         </RelativeLayout>
 
+        <ListView
+            android:id="@+id/party_track_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:text="Add Song"
+            android:id="@+id/add_song_button" />
+
         <Button
             android:id="@+id/create_party"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:text="Create" />
 
     </LinearLayout>
