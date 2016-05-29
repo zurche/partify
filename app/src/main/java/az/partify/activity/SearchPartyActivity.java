@@ -30,6 +30,7 @@ public class SearchPartyActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = SearchPartyActivity.class.getSimpleName();
+    public static final String CURRENT_PARTY = "party";
 
     private SearchPartyController mSearchPartyController;
     private ListView mPartiesListView;
@@ -62,8 +63,7 @@ public class SearchPartyActivity extends AppCompatActivity implements
                 Intent startPartyDetailsScreen = new Intent(SearchPartyActivity.this,
                         PartyDetailsActivity.class);
 
-                startPartyDetailsScreen.putExtra(PartyDetailsActivity.TRACK_LIST, selectedParty.songList);
-                startPartyDetailsScreen.putExtra(PartyDetailsActivity.PARTY_NAME, selectedParty.name);
+                startPartyDetailsScreen.putExtra(CURRENT_PARTY, selectedParty);
 
                 startActivity(startPartyDetailsScreen);
             }
