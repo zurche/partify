@@ -19,6 +19,7 @@ import java.util.Locale;
 import az.partify.activity.SearchPartyActivity;
 import az.partify.model.Party;
 import az.partify.screen_actions.SearchPartyScreenActions;
+import az.partify.util.SharedPreferenceHelper;
 
 /**
  * Created by az on 22/05/16.
@@ -27,9 +28,11 @@ public class SearchPartyController {
 
     private static final String TAG = SearchPartyController.class.getSimpleName();
     private final Context mContext;
+    private final SharedPreferenceHelper mSharedPreferenceHelper;
 
     public SearchPartyController(Context context) {
         mContext = context;
+        mSharedPreferenceHelper = new SharedPreferenceHelper(context);
     }
 
     public void onRetrievePartyList(float latitude, float longitude, SearchPartyActivity searchPartyActivity) {
@@ -62,10 +65,15 @@ public class SearchPartyController {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot partySnapshot : dataSnapshot.getChildren()) {
                             Party party = partySnapshot.getValue(Party.class);
-                            if (distanceFrom(currentLocation, party) < 100) {
+                            if(party.hostId.equals(mSharedPreferenceHelper.getCurrentUserId())) {
+                                parties.clear();
+                                parties.add(party);
+                                break;
+                            } else if (distanceFrom(currentLocation, party) < 100) {
                                 parties.add(party);
                             }
                         }
+
                         ((SearchPartyScreenActions) mContext).refreshPartyListInScreen(parties);
                     }
 

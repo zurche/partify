@@ -136,6 +136,9 @@ public class CreatePartyController {
     }
 
     private void saveNewParty(Party tmpParty) {
+        // Tracks have been added to Spotify playlist, so no need to add them to Firebase too
+        mCurrentParty.trackList.clear();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("parties");
 
@@ -167,7 +170,7 @@ public class CreatePartyController {
         mCreatePartyScreenActions.updateLocationUI(mStreetAddress);
     }
 
-    public void onAddSongButtonPressed() {
-        mCreatePartyScreenActions.showSearchSongScreen();
+    public void onAddTrackButtonPressed() {
+        mCreatePartyScreenActions.showSearchTrackScreen();
     }
 }

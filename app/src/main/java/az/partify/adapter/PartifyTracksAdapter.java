@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,7 +21,15 @@ import kaaes.spotify.webapi.android.models.Track;
 public class PartifyTracksAdapter extends BaseAdapter {
 
     private final Context mContext;
+    private boolean mIsCurrentPartyOwnedByCurrentUser;
     private List<PartifyTrack> mTracks;
+
+    public PartifyTracksAdapter(List<PartifyTrack> tracks, Context context,
+                                boolean isCurrentPartyOwnedByCurrentUser) {
+        mContext = context;
+        mTracks = tracks;
+        mIsCurrentPartyOwnedByCurrentUser = isCurrentPartyOwnedByCurrentUser;
+    }
 
     public PartifyTracksAdapter(List<PartifyTrack> tracks, Context context) {
         mContext = context;
@@ -53,6 +62,7 @@ public class PartifyTracksAdapter extends BaseAdapter {
             viewHolder = new ViewHolderItem();
             viewHolder.songNameTV = (TextView) convertView.findViewById(R.id.song_name);
             viewHolder.songArtistTV = (TextView) convertView.findViewById(R.id.song_artist);
+            viewHolder.addTrackIcon = (ImageView) convertView.findViewById(R.id.add_track_icon);
 
             convertView.setTag(viewHolder);
 
@@ -68,11 +78,16 @@ public class PartifyTracksAdapter extends BaseAdapter {
             viewHolder.songArtistTV.setText("(" + track.mArtistName + ")");
         }
 
+        viewHolder.addTrackIcon.setVisibility(mIsCurrentPartyOwnedByCurrentUser ?
+                View.VISIBLE :
+                View.GONE);
+
         return convertView;
     }
 
     static class ViewHolderItem {
         TextView songNameTV;
         TextView songArtistTV;
+        ImageView addTrackIcon;
     }
 }

@@ -19,7 +19,7 @@
         </ListView>
 
         <Button
-            android:id="@+id/add_song_button"
+            android:id="@+id/add_track_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,7 +27,7 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:text="Add Song" />
+            android:text="Add Track" />
 
     </LinearLayout>
 

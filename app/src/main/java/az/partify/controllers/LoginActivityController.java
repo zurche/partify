@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -23,11 +24,19 @@ import java.util.Locale;
 import az.partify.screen_actions.LoginScreenActions;
 import az.partify.util.SharedPreferenceHelper;
 import az.partify.util.SpotifyScope;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by az on 22/05/16.
  */
 public class LoginActivityController {
+
+    private static final String TAG = LoginActivityController.class.getSimpleName();
 
     private static final String CLIENT_ID = "331d62158fe642528cf0b22a5a90aa12";
     private static final String REDIRECT_URI = "yourcustomprotocol://callback";
@@ -60,6 +69,25 @@ public class LoginActivityController {
 
     public void onUserLoggedInSuccessfully(String accessToken) {
         mSharedPreferenceHelper.saveSpotifyToken(accessToken);
+
+        SpotifyApi mSpotifyApi = new SpotifyApi();
+        mSpotifyApi.setAccessToken(accessToken);
+        SpotifyService spotifyService = mSpotifyApi.getService();
+
+        spotifyService.getMe(new Callback<UserPrivate>() {
+            @Override
+            public void success(UserPrivate userPrivate, Response response) {
+                Log.d(TAG, "Obtained User Information.");
+
+                mSharedPreferenceHelper.saveCurrentUserId(userPrivate.id);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "FAILED to Obtain User Information.");
+            }
+        });
+
         ((LoginScreenActions) mContext).showMainScreen();
     }
 

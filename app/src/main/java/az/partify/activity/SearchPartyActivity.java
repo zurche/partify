@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import az.partify.R;
 import az.partify.adapter.PartiesAdapter;
 import az.partify.controllers.SearchPartyController;
+import az.partify.model.PartifyTrack;
 import az.partify.model.Party;
 import az.partify.screen_actions.SearchPartyScreenActions;
 
@@ -59,6 +60,10 @@ public class SearchPartyActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Party selectedParty = (Party) mPartiesListView.getItemAtPosition(position);
+
+                if(selectedParty.trackList == null) {
+                    selectedParty.trackList = new ArrayList<PartifyTrack>();
+                }
 
                 Intent startPartyDetailsScreen = new Intent(SearchPartyActivity.this,
                         PartyDetailsActivity.class);

@@ -10,5 +10,5 @@ public interface CreatePartyScreenActions {
 
     void showPartyCreatedScreen();
 
-    void showSearchSongScreen();
+    void showSearchTrackScreen();
 }

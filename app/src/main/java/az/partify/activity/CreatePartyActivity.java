@@ -24,11 +24,9 @@ import java.util.ArrayList;
 
 import az.partify.R;
 import az.partify.adapter.PartifyTracksAdapter;
-import az.partify.adapter.TracksAdapter;
 import az.partify.controllers.CreatePartyController;
 import az.partify.model.PartifyTrack;
 import az.partify.screen_actions.CreatePartyScreenActions;
-import kaaes.spotify.webapi.android.models.Track;
 
 public class CreatePartyActivity extends AppCompatActivity implements
         CreatePartyScreenActions,
@@ -77,11 +75,11 @@ public class CreatePartyActivity extends AppCompatActivity implements
             }
         });
 
-        mAddSongButton = (Button) findViewById(R.id.add_song_button);
+        mAddSongButton = (Button) findViewById(R.id.add_track_button);
         mAddSongButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCreatePartyController.onAddSongButtonPressed();
+                mCreatePartyController.onAddTrackButtonPressed();
             }
         });
     }
@@ -148,7 +146,7 @@ public class CreatePartyActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showSearchSongScreen() {
+    public void showSearchTrackScreen() {
         Intent startSearchSongActivity = new Intent(this, SearchTrackActivity.class);
         startActivityForResult(startSearchSongActivity, SEARCH_SONG_REQUEST_CODE);
     }

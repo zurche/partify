@@ -3,6 +3,7 @@ package az.partify.controllers;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -51,6 +52,22 @@ public class PartyDetailsController {
     public void onUserAddedTrack(PartifyTrack trackToAdd) {
         mCurrentParty.addTrack(trackToAdd);
 
+        updateParty();
+    }
+
+    private void updateParty() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("parties");
+
+        myRef.child(mCurrentParty.name).setValue(mCurrentParty, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                mPartyDetailsScreenActions.updateCurrentTrackList(mCurrentParty);
+            }
+        });
+    }
+
+    public void onHostClicksTrack(final PartifyTrack trackToAdd) {
         HashMap parametersMap = new HashMap();
         parametersMap.put("uris", trackToAdd.mId);
 
@@ -62,7 +79,7 @@ public class PartyDetailsController {
                 new Callback<Pager<PlaylistTrack>>() {
                     @Override
                     public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
-                        updateParty();
+                        removeTrackFromParty(trackToAdd);
                     }
 
                     @Override
@@ -72,15 +89,9 @@ public class PartyDetailsController {
                 });
     }
 
-    private void updateParty() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("parties");
+    private void removeTrackFromParty(PartifyTrack trackToAdd) {
+        mCurrentParty.trackList.remove(trackToAdd);
 
-        myRef.child(mCurrentParty.name).setValue(mCurrentParty, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                mPartyDetailsScreenActions.updateCurrentTrackList();
-            }
-        });
+        updateParty();
     }
 }
