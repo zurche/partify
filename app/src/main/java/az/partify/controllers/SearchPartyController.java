@@ -25,6 +25,7 @@ import az.partify.screen_actions.SearchPartyScreenActions;
  */
 public class SearchPartyController {
 
+    private static final String TAG = SearchPartyController.class.getSimpleName();
     private final Context mContext;
 
     public SearchPartyController(Context context) {
@@ -61,7 +62,7 @@ public class SearchPartyController {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot partySnapshot : dataSnapshot.getChildren()) {
                             Party party = partySnapshot.getValue(Party.class);
-                            if(distanceFrom(currentLocation, party) < 100) {
+                            if (distanceFrom(currentLocation, party) < 100) {
                                 parties.add(party);
                             }
                         }
@@ -82,12 +83,12 @@ public class SearchPartyController {
         float lng2 = pointB.longitude;
 
         double earthRadius = 6371000; //meters
-        double dLat = Math.toRadians(lat2-lat1);
-        double dLng = Math.toRadians(lng2-lng1);
-        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLng/2) * Math.sin(dLng/2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         float dist = (float) (earthRadius * c);
 
         return dist;
