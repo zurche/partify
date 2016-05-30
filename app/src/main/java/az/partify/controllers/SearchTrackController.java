@@ -16,10 +16,10 @@ import retrofit.client.Response;
  * Created by az on 29/05/16.
  */
 public class SearchTrackController {
+    private static final String TAG = SearchTrackController.class.getSimpleName();
     private final SearchTrackScreenActions mSearchTrackScreenActions;
     private final SharedPreferenceHelper mSharedPreferenceHelper;
     private final SpotifyService mSpotifyService;
-    private static final String TAG = SearchTrackController.class.getSimpleName();
 
     public SearchTrackController(SearchTrackScreenActions searchTrackActivity) {
         mSearchTrackScreenActions = searchTrackActivity;

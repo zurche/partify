@@ -68,7 +68,7 @@ public class SearchTrackActivity extends AppCompatActivity implements SearchTrac
                 PartifyTrack partifyTrack = new PartifyTrack(
                         selectedTrack.name,
                         selectedTrack.artists.get(0).name,
-                        selectedTrack.id);
+                        "spotify:track:" + selectedTrack.id);
 
                 Intent resultData = new Intent();
                 resultData.putExtra(TRACK, partifyTrack);

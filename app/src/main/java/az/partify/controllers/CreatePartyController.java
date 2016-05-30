@@ -21,8 +21,9 @@ import az.partify.screen_actions.CreatePartyScreenActions;
 import az.partify.util.SharedPreferenceHelper;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -32,13 +33,14 @@ import retrofit.client.Response;
  * Created by az on 22/05/16.
  */
 public class CreatePartyController {
-
+    private static final String TAG = CreatePartyController.class.getSimpleName();
     private final CreatePartyScreenActions mCreatePartyScreenActions;
     private final SharedPreferenceHelper mSharedPreferenceHelper;
     private final SpotifyService mSpotifyService;
     private String mStreetAddress;
     private float mLatitude;
     private float mLongitude;
+    private Party mCurrentParty;
 
     public CreatePartyController(CreatePartyScreenActions createPartyScreenActions) {
         mCreatePartyScreenActions = createPartyScreenActions;
@@ -49,40 +51,97 @@ public class CreatePartyController {
         mSpotifyService = mSpotifyApi.getService();
     }
 
-    private void getCurrentUser() {
+
+    public void onSaveParty(String partyName, ArrayList<PartifyTrack> trackList) {
+        if (partyName.trim().length() == 0) {
+            mCreatePartyScreenActions.showError("Party Name Invalid");
+        } else {
+            mCurrentParty = new Party(mLatitude, mLongitude, partyName, trackList);
+
+            createSpotifyPlaylist();
+        }
+    }
+
+    private void createSpotifyPlaylist() {
         mSpotifyService.getMe(new Callback<UserPrivate>() {
             @Override
             public void success(UserPrivate userPrivate, Response response) {
-                Log.d("USER", "Obtained User Information.");
+                Log.d(TAG, "Obtained User Information.");
 
                 mSharedPreferenceHelper.saveCurrentUserId(userPrivate.id);
 
-                createPlaylist(userPrivate.id, "PartifyPlaylist");
+                createPlaylist(userPrivate.id);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("USER", "FAILED to Obtain User Information.");
+                Log.d(TAG, "FAILED to Obtain User Information.");
             }
         });
     }
 
-    private void createPlaylist(String id, String playlistName) {
+    private void createPlaylist(final String userId) {
         HashMap<String, Object> playlistParams = new HashMap<String, Object>();
-        playlistParams.put("name", playlistName);
-        playlistParams.put("public", false);
+        playlistParams.put("name", mCurrentParty.name);
+        playlistParams.put("public", true);
 
-        mSpotifyService.createPlaylist(id, playlistParams, new Callback<Playlist>() {
+        mSpotifyService.createPlaylist(userId, playlistParams, new Callback<Playlist>() {
             @Override
             public void success(Playlist playlist, Response response) {
-                Log.d("PLAYLIST", "Playlist Created successfully: " + playlist.name);
+                Log.d(TAG, "Playlist Created successfully: " + playlist.name);
 
                 mSharedPreferenceHelper.saveCurrentPlayListId(playlist.id);
+
+                mCurrentParty.setPlaylistId(playlist.id);
+
+                addTracksToSpotifyPlaylist(userId, playlist.id);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("PLAYLIST", "Playlist Creation Failed.");
+                Log.d(TAG, "Playlist Creation Failed.");
+            }
+        });
+    }
+
+    private void addTracksToSpotifyPlaylist(String userId, String playlistId) {
+
+        StringBuffer tracksParams = new StringBuffer();
+
+        for (PartifyTrack track : mCurrentParty.trackList) {
+            tracksParams.append(track.mId).append(",");
+        }
+
+        HashMap trackMap = new HashMap();
+        trackMap.put("uris", tracksParams.toString());
+
+
+        mSpotifyService.addTracksToPlaylist(
+                userId,
+                playlistId,
+                trackMap,
+                new HashMap<String, Object>(),
+                new Callback<Pager<PlaylistTrack>>() {
+                    @Override
+                    public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
+                        saveNewParty(mCurrentParty);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d(TAG, "Adding Tracks to Playlist Failed.");
+                    }
+                });
+    }
+
+    private void saveNewParty(Party tmpParty) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("parties");
+
+        myRef.child(tmpParty.name).setValue(tmpParty, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                mCreatePartyScreenActions.showPartyCreatedScreen();
             }
         });
     }
@@ -107,26 +166,6 @@ public class CreatePartyController {
         mCreatePartyScreenActions.updateLocationUI(mStreetAddress);
     }
 
-    public void onSaveParty(String partyName, ArrayList<PartifyTrack> trackList) {
-        if (partyName.trim().length() == 0) {
-            mCreatePartyScreenActions.showError("Party Name Invalid");
-        } else {
-            Party newParty = new Party(mLatitude, mLongitude, partyName, trackList);
-            saveNewParty(newParty);
-        }
-    }
-
-    private void saveNewParty(Party tmpParty) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("parties");
-
-        myRef.child(tmpParty.name).setValue(tmpParty, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                mCreatePartyScreenActions.showPartyCreatedScreen();
-            }
-        });
-    }
 
     public void onAddSongButtonPressed() {
         mCreatePartyScreenActions.showSearchSongScreen();

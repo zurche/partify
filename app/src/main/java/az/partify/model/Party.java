@@ -15,6 +15,7 @@ public class Party implements Serializable {
     public float longitude;
     public String name;
     public ArrayList<PartifyTrack> trackList;
+    public String playlistId;
 
     public Party() {
 
@@ -29,5 +30,9 @@ public class Party implements Serializable {
 
     public void addTrack(PartifyTrack trackToAdd) {
         trackList.add(trackToAdd);
+    }
+
+    public void setPlaylistId(String playlistId) {
+        this.playlistId = playlistId;
     }
 }
