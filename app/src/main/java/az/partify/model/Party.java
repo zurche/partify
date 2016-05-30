@@ -16,6 +16,7 @@ public class Party implements Serializable {
     public String name;
     public ArrayList<PartifyTrack> trackList;
     public String playlistId;
+    public String hostId;
 
     public Party() {
 
@@ -34,5 +35,9 @@ public class Party implements Serializable {
 
     public void setPlaylistId(String playlistId) {
         this.playlistId = playlistId;
+    }
+
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
     }
 }

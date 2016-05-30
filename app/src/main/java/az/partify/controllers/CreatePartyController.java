@@ -51,7 +51,6 @@ public class CreatePartyController {
         mSpotifyService = mSpotifyApi.getService();
     }
 
-
     public void onSaveParty(String partyName, ArrayList<PartifyTrack> trackList) {
         if (partyName.trim().length() == 0) {
             mCreatePartyScreenActions.showError("Party Name Invalid");
@@ -70,7 +69,9 @@ public class CreatePartyController {
 
                 mSharedPreferenceHelper.saveCurrentUserId(userPrivate.id);
 
-                createPlaylist(userPrivate.id);
+                mCurrentParty.setHostId(userPrivate.id);
+
+                createPlaylist();
             }
 
             @Override
@@ -80,12 +81,12 @@ public class CreatePartyController {
         });
     }
 
-    private void createPlaylist(final String userId) {
+    private void createPlaylist() {
         HashMap<String, Object> playlistParams = new HashMap<String, Object>();
         playlistParams.put("name", mCurrentParty.name);
         playlistParams.put("public", true);
 
-        mSpotifyService.createPlaylist(userId, playlistParams, new Callback<Playlist>() {
+        mSpotifyService.createPlaylist(mCurrentParty.hostId, playlistParams, new Callback<Playlist>() {
             @Override
             public void success(Playlist playlist, Response response) {
                 Log.d(TAG, "Playlist Created successfully: " + playlist.name);
@@ -94,7 +95,7 @@ public class CreatePartyController {
 
                 mCurrentParty.setPlaylistId(playlist.id);
 
-                addTracksToSpotifyPlaylist(userId, playlist.id);
+                addTracksToSpotifyPlaylist();
             }
 
             @Override
@@ -104,7 +105,7 @@ public class CreatePartyController {
         });
     }
 
-    private void addTracksToSpotifyPlaylist(String userId, String playlistId) {
+    private void addTracksToSpotifyPlaylist() {
 
         StringBuffer tracksParams = new StringBuffer();
 
@@ -112,14 +113,14 @@ public class CreatePartyController {
             tracksParams.append(track.mId).append(",");
         }
 
-        HashMap trackMap = new HashMap();
-        trackMap.put("uris", tracksParams.toString());
+        HashMap parametersMap = new HashMap();
+        parametersMap.put("uris", tracksParams.toString());
 
 
         mSpotifyService.addTracksToPlaylist(
-                userId,
-                playlistId,
-                trackMap,
+                mCurrentParty.hostId,
+                mCurrentParty.playlistId,
+                parametersMap,
                 new HashMap<String, Object>(),
                 new Callback<Pager<PlaylistTrack>>() {
                     @Override
@@ -165,7 +166,6 @@ public class CreatePartyController {
 
         mCreatePartyScreenActions.updateLocationUI(mStreetAddress);
     }
-
 
     public void onAddSongButtonPressed() {
         mCreatePartyScreenActions.showSearchSongScreen();
