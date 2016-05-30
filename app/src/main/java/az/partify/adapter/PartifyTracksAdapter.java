@@ -13,7 +13,6 @@ import java.util.List;
 
 import az.partify.R;
 import az.partify.model.PartifyTrack;
-import kaaes.spotify.webapi.android.models.Track;
 
 /**
  * Created by az on 22/05/16.
@@ -57,11 +56,11 @@ public class PartifyTracksAdapter extends BaseAdapter {
 
         if(convertView==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.song_list_item_layout, parent, false);
+            convertView = inflater.inflate(R.layout.track_list_item_layout, parent, false);
 
             viewHolder = new ViewHolderItem();
-            viewHolder.songNameTV = (TextView) convertView.findViewById(R.id.song_name);
-            viewHolder.songArtistTV = (TextView) convertView.findViewById(R.id.song_artist);
+            viewHolder.trackNameTV = (TextView) convertView.findViewById(R.id.track_name);
+            viewHolder.trackArtistTV = (TextView) convertView.findViewById(R.id.track_artist);
             viewHolder.addTrackIcon = (ImageView) convertView.findViewById(R.id.add_track_icon);
 
             convertView.setTag(viewHolder);
@@ -74,8 +73,8 @@ public class PartifyTracksAdapter extends BaseAdapter {
         PartifyTrack track = mTracks.get(position);
 
         if(track != null) {
-            viewHolder.songNameTV.setText(track.mName);
-            viewHolder.songArtistTV.setText("(" + track.mArtistName + ")");
+            viewHolder.trackNameTV.setText(track.mName);
+            viewHolder.trackArtistTV.setText("(" + track.mArtistName + ")");
         }
 
         viewHolder.addTrackIcon.setVisibility(mIsCurrentPartyOwnedByCurrentUser ?
@@ -86,8 +85,8 @@ public class PartifyTracksAdapter extends BaseAdapter {
     }
 
     static class ViewHolderItem {
-        TextView songNameTV;
-        TextView songArtistTV;
+        TextView trackNameTV;
+        TextView trackArtistTV;
         ImageView addTrackIcon;
     }
 }

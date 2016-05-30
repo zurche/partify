@@ -38,9 +38,7 @@ public class CreatePartyActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private ProgressBar mLocationProgressBar;
     private TextView mLocationLabel;
-    private Button mCreatePartyButton;
     private EditText mPartyNameEditText;
-    private Button mAddSongButton;
     private ListView mPartyTrackList;
     private PartifyTracksAdapter mTracksAdapter;
     private ArrayList<PartifyTrack> mCurrentTrackList = new ArrayList<>();
@@ -67,7 +65,7 @@ public class CreatePartyActivity extends AppCompatActivity implements
         mLocationLabel = (TextView) findViewById(R.id.location_label);
         mPartyTrackList = (ListView) findViewById(R.id.party_track_list);
 
-        mCreatePartyButton = (Button) findViewById(R.id.create_party);
+        Button mCreatePartyButton = (Button) findViewById(R.id.create_party);
         mCreatePartyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,8 +73,8 @@ public class CreatePartyActivity extends AppCompatActivity implements
             }
         });
 
-        mAddSongButton = (Button) findViewById(R.id.add_track_button);
-        mAddSongButton.setOnClickListener(new View.OnClickListener() {
+        Button mAddTrackButton = (Button) findViewById(R.id.add_track_button);
+        mAddTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCreatePartyController.onAddTrackButtonPressed();

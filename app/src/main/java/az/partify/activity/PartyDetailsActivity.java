@@ -22,12 +22,9 @@ import az.partify.util.SharedPreferenceHelper;
 public class PartyDetailsActivity extends AppCompatActivity implements PartyDetailsScreenActions {
 
     private ArrayList<PartifyTrack> mPartyTrackList;
-    private ListView mPartySongListView;
+    private ListView mPartyTrackListView;
     private PartifyTracksAdapter mTracksAdapter;
-    private Button mAddTrackButton;
     private PartyDetailsController mPartyDetailsController;
-    private Party mCurrentParty;
-    private SharedPreferenceHelper mSharedPreferenceHelper;
     private boolean mIsCurrentPartyOwnedByCurrentUser;
 
     @Override
@@ -35,12 +32,12 @@ public class PartyDetailsActivity extends AppCompatActivity implements PartyDeta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_details);
 
-        mSharedPreferenceHelper = new SharedPreferenceHelper(this);
+        SharedPreferenceHelper mSharedPreferenceHelper = new SharedPreferenceHelper(this);
 
 
         Bundle intentExtras = getIntent().getExtras();
 
-        mCurrentParty = (Party) intentExtras.get(SearchPartyActivity.CURRENT_PARTY);
+        Party mCurrentParty = (Party) intentExtras.get(SearchPartyActivity.CURRENT_PARTY);
 
         mIsCurrentPartyOwnedByCurrentUser =
                 mCurrentParty.hostId.equals(mSharedPreferenceHelper.getCurrentUserId());
@@ -53,7 +50,7 @@ public class PartyDetailsActivity extends AppCompatActivity implements PartyDeta
 
         mPartyDetailsController = new PartyDetailsController(this, mCurrentParty);
 
-        mAddTrackButton = (Button) findViewById(R.id.add_track_button);
+        Button mAddTrackButton = (Button) findViewById(R.id.add_track_button);
         mAddTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,10 +63,10 @@ public class PartyDetailsActivity extends AppCompatActivity implements PartyDeta
                         View.GONE :
                         View.VISIBLE);
 
-        mPartySongListView = (ListView) findViewById(R.id.party_song_list);
+        mPartyTrackListView = (ListView) findViewById(R.id.party_track_list);
         mTracksAdapter = new PartifyTracksAdapter(mPartyTrackList, this, mIsCurrentPartyOwnedByCurrentUser);
-        mPartySongListView.setAdapter(mTracksAdapter);
-        mPartySongListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPartyTrackListView.setAdapter(mTracksAdapter);
+        mPartyTrackListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mIsCurrentPartyOwnedByCurrentUser) {
@@ -84,7 +81,7 @@ public class PartyDetailsActivity extends AppCompatActivity implements PartyDeta
     private void removeElementFromTracklist(int position) {
         mPartyTrackList.remove(position);
         mTracksAdapter = new PartifyTracksAdapter(mPartyTrackList, PartyDetailsActivity.this, mIsCurrentPartyOwnedByCurrentUser);
-        mPartySongListView.setAdapter(mTracksAdapter);
+        mPartyTrackListView.setAdapter(mTracksAdapter);
     }
 
     @Override
@@ -107,6 +104,6 @@ public class PartyDetailsActivity extends AppCompatActivity implements PartyDeta
     @Override
     public void updateCurrentTrackList(Party mCurrentParty) {
         mTracksAdapter = new PartifyTracksAdapter(mCurrentParty.trackList, PartyDetailsActivity.this, mIsCurrentPartyOwnedByCurrentUser);
-        mPartySongListView.setAdapter(mTracksAdapter);
+        mPartyTrackListView.setAdapter(mTracksAdapter);
     }
 }

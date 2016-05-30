@@ -14,7 +14,7 @@
         android:layout_toStartOf="@+id/imageView">
 
         <com.lb.auto_fit_textview.AutoResizeTextView
-            android:id="@+id/song_name"
+            android:id="@+id/track_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -25,7 +25,7 @@
             tools:text="Song" />
 
         <com.lb.auto_fit_textview.AutoResizeTextView
-            android:id="@+id/song_artist"
+            android:id="@+id/track_artist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"

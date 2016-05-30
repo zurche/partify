@@ -17,7 +17,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Create"
-            android:textSize="90sp"
+            android:textSize="70sp"
             android:maxLines="1"/>
 
         <Button
@@ -26,7 +26,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Search"
-            android:textSize="90sp"
+            android:textSize="70sp"
             android:maxLines="1"/>
     </LinearLayout>
 

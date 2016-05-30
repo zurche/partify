@@ -12,7 +12,6 @@ import java.util.List;
 
 import az.partify.R;
 import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.TrackSimple;
 
 /**
  * Created by az on 22/05/16.
@@ -48,11 +47,11 @@ public class TracksAdapter extends BaseAdapter {
 
         if(convertView==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.song_list_item_layout, parent, false);
+            convertView = inflater.inflate(R.layout.track_list_item_layout, parent, false);
 
             viewHolder = new ViewHolderItem();
-            viewHolder.songNameTV = (TextView) convertView.findViewById(R.id.song_name);
-            viewHolder.songArtistTV = (TextView) convertView.findViewById(R.id.song_artist);
+            viewHolder.songNameTV = (TextView) convertView.findViewById(R.id.track_name);
+            viewHolder.songArtistTV = (TextView) convertView.findViewById(R.id.track_artist);
 
             convertView.setTag(viewHolder);
 

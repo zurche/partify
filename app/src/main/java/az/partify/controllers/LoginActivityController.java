@@ -56,12 +56,8 @@ public class LoginActivityController {
                 REDIRECT_URI);
 
         builder.setScopes(new String[]{
-                SpotifyScope.USER_READ_PRIVATE,
-                SpotifyScope.PLAYLIST_READ_COLLABORATIVE,
                 SpotifyScope.PLAYLIST_MODIFY_PRIVATE,
-                SpotifyScope.PLAYLIST_MODIFY_PUBLIC,
-                SpotifyScope.USER_FOLLOW_MODIFY,
-                SpotifyScope.PLAYLIST_READ_PRIVATE});
+                SpotifyScope.PLAYLIST_MODIFY_PUBLIC});
 
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity((Activity) mContext, REQUEST_CODE, request);
